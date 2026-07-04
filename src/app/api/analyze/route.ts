@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { ApiError } from "@google/genai";
 import { analyzeContent, GeminiResponseError } from "@/lib/gemini/analyze";
 import { MissingApiKeyError } from "@/lib/gemini/client";
+import { checkRateLimit } from "@/lib/rateLimit";
 import type { AnalysisContentType, AnalyzeRequestBody } from "@/types/analysis";
 
 const VALID_TYPES: AnalysisContentType[] = [
@@ -42,7 +43,23 @@ function validateBody(body: unknown): AnalyzeRequestBody {
   return { type: type as AnalysisContentType, content, mimeType };
 }
 
+function getClientKey(request: NextRequest): string {
+  const forwardedFor = request.headers.get("x-forwarded-for");
+  return forwardedFor?.split(",")[0]?.trim() ?? "unknown";
+}
+
 export async function POST(request: NextRequest) {
+  const rateLimit = checkRateLimit(getClientKey(request));
+  if (!rateLimit.allowed) {
+    return NextResponse.json(
+      { error: "Too many scans in a short period. Please wait a moment and try again." },
+      {
+        status: 429,
+        headers: { "Retry-After": String(rateLimit.retryAfterSeconds) },
+      }
+    );
+  }
+
   let body: AnalyzeRequestBody;
   try {
     const json = await request.json();

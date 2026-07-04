@@ -25,6 +25,10 @@ export async function analyzeContent(
       responseMimeType: "application/json",
       responseSchema: analysisResponseSchema,
       temperature: 0.2,
+      httpOptions: {
+        timeout: 25_000,
+        retryOptions: { attempts: 3 },
+      },
     },
   });
 

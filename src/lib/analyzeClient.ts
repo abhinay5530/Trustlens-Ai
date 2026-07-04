@@ -2,6 +2,8 @@ import type { AnalyzeRequestBody, AnalyzeResponseBody } from "@/types/analysis";
 
 export class AnalyzeApiError extends Error {}
 
+const REQUEST_TIMEOUT_MS = 30_000;
+
 export async function analyze(
   body: AnalyzeRequestBody
 ): Promise<AnalyzeResponseBody> {
@@ -11,8 +13,14 @@ export async function analyze(
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
     });
-  } catch {
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "TimeoutError") {
+      throw new AnalyzeApiError(
+        "The scan took too long to respond. Please try again."
+      );
+    }
     throw new AnalyzeApiError(
       "Could not reach the analysis server. Check your connection and try again."
     );

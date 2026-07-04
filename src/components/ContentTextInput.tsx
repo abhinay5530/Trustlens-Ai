@@ -5,6 +5,7 @@ interface ContentTextInputProps {
   value: string;
   onChange: (value: string) => void;
   error: string | null;
+  onSubmit?: () => void;
 }
 
 const COPY: Record<ContentTextInputProps["mode"], { label: string; placeholder: string }> = {
@@ -27,6 +28,7 @@ export default function ContentTextInput({
   value,
   onChange,
   error,
+  onSubmit,
 }: ContentTextInputProps) {
   const { label, placeholder } = COPY[mode];
   const isUrl = mode === "url";
@@ -35,6 +37,13 @@ export default function ContentTextInput({
   const borderClass = error
     ? "border-critical/50 focus:border-critical/70"
     : "border-border-subtle focus:border-accent-strong/60";
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if ((e.metaKey || e.ctrlKey) && e.key === "Enter") {
+      e.preventDefault();
+      onSubmit?.();
+    }
+  }
 
   return (
     <div>
@@ -48,6 +57,7 @@ export default function ContentTextInput({
           inputMode="url"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder={placeholder}
           aria-invalid={Boolean(error)}
           className={`${sharedClasses} ${borderClass}`}
@@ -57,6 +67,7 @@ export default function ContentTextInput({
           id="content-input"
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder={placeholder}
           rows={7}
           aria-invalid={Boolean(error)}

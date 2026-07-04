@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { AnalysisContentType, AnalyzeResponseBody } from "@/types/analysis";
 import InputTabs from "./InputTabs";
 import ContentTextInput from "./ContentTextInput";
+import ExampleChips from "./ExampleChips";
 import FileUpload from "./FileUpload";
 import ScanButton from "./ScanButton";
 import ScanningOverlay from "./ScanningOverlay";
@@ -40,6 +41,16 @@ export default function AnalyzerSection() {
   const [status, setStatus] = useState<Status>("idle");
   const [result, setResult] = useState<AnalyzeResponseBody | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const regionRef = useRef<HTMLDivElement>(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    regionRef.current?.focus();
+  }, [status]);
 
   function handleModeChange(next: AnalysisContentType) {
     setMode(next);
@@ -139,41 +150,58 @@ export default function AnalyzerSection() {
         </p>
       </div>
 
-      {status === "loading" && <ScanningOverlay />}
+      <div ref={regionRef} tabIndex={-1} className="outline-none">
+        {status === "loading" && <ScanningOverlay />}
 
-      {status === "success" && result && (
-        <ResultsDashboard result={result} onReset={handleReset} />
-      )}
+        {status === "success" && result && (
+          <ResultsDashboard result={result} onReset={handleReset} />
+        )}
 
-      {(status === "idle" || status === "error") && (
-        <div className="space-y-5 rounded-2xl border border-border-subtle bg-background-elevated p-6 sm:p-8">
-          <InputTabs active={mode} onChange={handleModeChange} />
+        {(status === "idle" || status === "error") && (
+          <div
+            role="tabpanel"
+            id="analyzer-panel"
+            aria-labelledby={`tab-${mode}`}
+            className="space-y-5 rounded-2xl border border-border-subtle bg-background-elevated p-6 sm:p-8"
+          >
+            <InputTabs active={mode} onChange={handleModeChange} />
 
-          {mode === "image" || mode === "pdf" ? (
-            <FileUpload
-              kind={mode}
-              file={files[mode]}
-              previewUrl={previewUrls[mode]}
-              error={fieldError}
-              onFileSelected={(file) => handleFileSelected(mode, file)}
-              onClear={() => handleClearFile(mode)}
-            />
-          ) : (
-            <ContentTextInput
-              mode={mode}
-              value={values[mode]}
-              onChange={(value) => setValues((prev) => ({ ...prev, [mode]: value }))}
-              error={fieldError}
-            />
-          )}
+            {mode === "image" || mode === "pdf" ? (
+              <FileUpload
+                kind={mode}
+                file={files[mode]}
+                previewUrl={previewUrls[mode]}
+                error={fieldError}
+                onFileSelected={(file) => handleFileSelected(mode, file)}
+                onClear={() => handleClearFile(mode)}
+              />
+            ) : (
+              <div className="space-y-3">
+                <ContentTextInput
+                  mode={mode}
+                  value={values[mode]}
+                  onChange={(value) => setValues((prev) => ({ ...prev, [mode]: value }))}
+                  error={fieldError}
+                  onSubmit={handleScan}
+                />
+                <ExampleChips
+                  mode={mode}
+                  onSelect={(value) => {
+                    setValues((prev) => ({ ...prev, [mode]: value }));
+                    setFieldError(null);
+                  }}
+                />
+              </div>
+            )}
 
-          {status === "error" && errorMessage && (
-            <ErrorBanner message={errorMessage} onRetry={handleScan} />
-          )}
+            {status === "error" && errorMessage && (
+              <ErrorBanner message={errorMessage} onRetry={handleScan} />
+            )}
 
-          <ScanButton onClick={handleScan} />
-        </div>
-      )}
+            <ScanButton onClick={handleScan} />
+          </div>
+        )}
+      </div>
     </section>
   );
 }
