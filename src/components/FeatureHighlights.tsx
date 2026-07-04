@@ -1,29 +1,35 @@
-import { Layers, MessageSquareText, Compass, Zap } from "lucide-react";
+import { Zap, Gauge, Users, Wand2, Timer, Lock } from "lucide-react";
 
 const FEATURES = [
   {
-    icon: Layers,
-    title: "Every format, one scanner",
-    description:
-      "Raw text, links, emails, screenshots, or PDFs — submit whatever you're unsure about, in whatever shape it's in.",
-  },
-  {
-    icon: MessageSquareText,
-    title: "Reasoning, not just a score",
-    description:
-      "Every result comes with a plain-language explanation of why, so you understand the risk instead of just trusting a number.",
-  },
-  {
-    icon: Compass,
-    title: "A clear next step",
-    description:
-      "No ambiguity. Every scan ends with one concrete recommendation for what to do next.",
-  },
-  {
     icon: Zap,
-    title: "Seconds, not minutes",
-    description:
-      "Built on Gemini 2.5 Flash, tuned for fast, decisive analysis without the wait.",
+    title: "Instant AI Analysis",
+    description: "Submit any content and get a full analysis in seconds, powered by Gemini 2.5 Flash.",
+  },
+  {
+    icon: Gauge,
+    title: "Understandable Trust Score",
+    description: "A single 0–100 score plus plain-language reasoning, not a cryptic percentage.",
+  },
+  {
+    icon: Users,
+    title: "Easy for Everyone",
+    description: "Built for anyone who's ever second-guessed a message, not just security experts.",
+  },
+  {
+    icon: Wand2,
+    title: "No Technical Knowledge Required",
+    description: "Paste, drop, or upload — TrustLens handles the analysis, you just read the verdict.",
+  },
+  {
+    icon: Timer,
+    title: "Fast Results",
+    description: "No queues, no waiting rooms. Most scans finish before you'd finish typing a reply.",
+  },
+  {
+    icon: Lock,
+    title: "Privacy First",
+    description: "Your content is analyzed in real time and is never stored on our servers.",
   },
 ];
 
@@ -32,7 +38,7 @@ export default function FeatureHighlights() {
     <section className="mx-auto max-w-6xl px-6 py-24">
       <div className="mx-auto mb-14 max-w-xl text-center">
         <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-          Built to be trusted, not just used
+          Why TrustLens?
         </h2>
         <p className="mt-3 text-muted">
           Every part of TrustLens is designed around one goal: give you an
@@ -40,7 +46,7 @@ export default function FeatureHighlights() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {FEATURES.map(({ icon: Icon, title, description }) => (
           <div
             key={title}

@@ -2,7 +2,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden px-6 pb-28 pt-24 sm:pt-32">
+    <section id="home" className="relative overflow-hidden px-6 pb-28 pt-24 sm:pt-32">
       <div
         aria-hidden
         className="bg-grid pointer-events-none absolute inset-0 opacity-[0.15] [mask-image:radial-gradient(ellipse_55%_45%_at_50%_0%,black,transparent)]"

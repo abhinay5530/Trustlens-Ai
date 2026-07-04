@@ -4,7 +4,11 @@ import AnalyzerSection from "@/components/AnalyzerSection";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import FeatureHighlights from "@/components/FeatureHighlights";
 import HowItWorks from "@/components/HowItWorks";
+import AboutSection from "@/components/AboutSection";
 import TrustSection from "@/components/TrustSection";
+import PricingSection from "@/components/PricingSection";
+import RoadmapSection from "@/components/RoadmapSection";
+import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -18,7 +22,11 @@ export default function Home() {
         </ErrorBoundary>
         <FeatureHighlights />
         <HowItWorks />
+        <AboutSection />
         <TrustSection />
+        <PricingSection />
+        <RoadmapSection />
+        <ContactSection />
       </main>
       <Footer />
     </div>
