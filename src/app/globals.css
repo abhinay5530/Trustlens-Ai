@@ -1,65 +1,69 @@
 @import "tailwindcss";
 
 :root {
-  --background: #05070d;
-  --background-elevated: #0c111d;
-  --background-card: #0f1524;
-  --border-subtle: #1e2636;
-  --foreground: #e7edf6;
-  --muted: #8b96ac;
-  --accent: #22d3ee;
-  --accent-strong: #67e8f9;
-  --success: #34d399;
-  --warning: #fbbf24;
-  --danger: #f87171;
-  --critical: #ef4444;
+  --background: #08090c;
+  --background-elevated: #0e1015;
+  --background-card: #12141a;
+  --background-hover: #171a21;
+  --border-subtle: #21242c;
+  --border-strong: #2c3039;
+  --foreground: #f5f6f8;
+  --muted: #8b93a1;
+  --muted-soft: #5f6774;
+
+  --accent: #6366f1;
+  --accent-strong: #818cf8;
+  --accent-blue: #3b82f6;
+  --accent-cyan: #22d3ee;
+
+  --success: #10b981;
+  --success-strong: #34d399;
+  --warning: #f59e0b;
+  --warning-strong: #fbbf24;
+  --danger: #f97316;
+  --danger-strong: #fb923c;
+  --critical: #f43f5e;
+  --critical-strong: #fb7185;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-background-elevated: var(--background-elevated);
   --color-background-card: var(--background-card);
+  --color-background-hover: var(--background-hover);
   --color-border-subtle: var(--border-subtle);
+  --color-border-strong: var(--border-strong);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-muted-soft: var(--muted-soft);
+
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-accent-blue: var(--accent-blue);
+  --color-accent-cyan: var(--accent-cyan);
+
   --color-success: var(--success);
+  --color-success-strong: var(--success-strong);
   --color-warning: var(--warning);
+  --color-warning-strong: var(--warning-strong);
   --color-danger: var(--danger);
+  --color-danger-strong: var(--danger-strong);
   --color-critical: var(--critical);
+  --color-critical-strong: var(--critical-strong);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 
-  --animate-scanline: scanline 2.4s linear infinite;
-  --animate-radar-spin: radar-spin 3.2s linear infinite;
-  --animate-fade-in-up: fade-in-up 0.6s ease-out both;
-  --animate-pulse-glow: pulse-glow 2.4s ease-in-out infinite;
-  --animate-grid-pan: grid-pan 30s linear infinite;
-}
-
-@keyframes scanline {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes radar-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  --animate-fade-in-up: fade-in-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  --animate-pulse-glow: pulse-glow 2.6s ease-in-out infinite;
+  --animate-float-slow: float-slow 14s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.2s linear infinite;
 }
 
 @keyframes fade-in-up {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -73,16 +77,26 @@
     opacity: 1;
   }
   50% {
-    opacity: 0.55;
+    opacity: 0.5;
   }
 }
 
-@keyframes grid-pan {
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(2%, -4%);
+  }
+}
+
+@keyframes shimmer {
   from {
-    background-position: 0 0;
+    background-position: -200% 0;
   }
   to {
-    background-position: 64px 64px;
+    background-position: 200% 0;
   }
 }
 
@@ -95,10 +109,51 @@ body {
   background-image:
     linear-gradient(to right, var(--border-subtle) 1px, transparent 1px),
     linear-gradient(to bottom, var(--border-subtle) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-size: 48px 48px;
+}
+
+.text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--accent-blue) 0%,
+    var(--accent) 45%,
+    var(--accent-cyan) 100%
+  );
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    100deg,
+    var(--muted) 30%,
+    var(--foreground) 50%,
+    var(--muted) 70%
+  );
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--accent-strong);
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 ::selection {
   background: var(--accent);
-  color: #05070d;
+  color: #f5f6f8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

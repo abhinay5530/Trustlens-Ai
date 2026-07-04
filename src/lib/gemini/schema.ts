@@ -13,7 +13,7 @@ export const analysisResponseSchema: Schema = {
     verdict: {
       type: Type.STRING,
       description:
-        'Short verdict label, e.g. "Safe", "Suspicious", "Phishing Attempt", "Scam", "Malware Risk", "Fake News", "Likely Legitimate".',
+        'Short, confident verdict label using this exact vocabulary where it applies: "Looks Legitimate", "Potential Red Flags Detected", "Phishing Attempt Detected", "Likely Scam", "Malware Risk Detected", "Misinformation Detected". Use a close variant only if none of these fit.',
     },
     riskLevel: {
       type: Type.STRING,

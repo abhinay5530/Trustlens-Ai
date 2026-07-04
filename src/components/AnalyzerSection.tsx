@@ -81,7 +81,7 @@ export default function AnalyzerSection() {
     const file = files[mode];
     if (!file) {
       setFieldError(
-        mode === "image" ? "Upload a screenshot to analyze." : "Upload a PDF to analyze."
+        mode === "image" ? "Upload a screenshot to inspect." : "Upload a PDF to inspect."
       );
       return false;
     }
@@ -129,11 +129,13 @@ export default function AnalyzerSection() {
   }
 
   return (
-    <section id="analyzer" className="mx-auto max-w-2xl px-6 py-20">
-      <div className="mb-8 text-center">
-        <h2 className="text-2xl font-bold text-foreground sm:text-3xl">Run a Scan</h2>
-        <p className="mt-2 text-sm text-muted">
-          Choose a content type, provide the details, and let Gemini do the analysis.
+    <section id="analyzer" className="mx-auto max-w-2xl px-6 py-24">
+      <div className="mb-10 text-center">
+        <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          Run a Trust Scan
+        </h2>
+        <p className="mt-3 text-muted">
+          Pick a format, drop in the details, and let Gemini do the rest.
         </p>
       </div>
 
@@ -144,7 +146,7 @@ export default function AnalyzerSection() {
       )}
 
       {(status === "idle" || status === "error") && (
-        <div className="space-y-5">
+        <div className="space-y-5 rounded-2xl border border-border-subtle bg-background-elevated p-6 sm:p-8">
           <InputTabs active={mode} onChange={handleModeChange} />
 
           {mode === "image" || mode === "pdf" ? (

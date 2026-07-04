@@ -2,7 +2,7 @@ export const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
 export function validateUrlInput(value: string): string | null {
   const trimmed = value.trim();
-  if (!trimmed) return "Enter a URL to analyze.";
+  if (!trimmed) return "Enter a URL to inspect.";
   const withProtocol = /^https?:\/\//i.test(trimmed)
     ? trimmed
     : `https://${trimmed}`;
@@ -22,7 +22,7 @@ export function validateTextInput(
   label: string
 ): string | null {
   const trimmed = value.trim();
-  if (!trimmed) return `Enter ${label} to analyze.`;
+  if (!trimmed) return `Enter ${label} to inspect.`;
   if (trimmed.length < 3) return "Enter at least 3 characters.";
   return null;
 }
