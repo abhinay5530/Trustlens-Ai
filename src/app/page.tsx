@@ -1,10 +1,17 @@
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import AnalyzerSection from "@/components/AnalyzerSection";
+import Footer from "@/components/Footer";
+
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col items-center justify-center bg-black text-zinc-50">
-      <h1 className="text-3xl font-semibold tracking-tight">TrustLens AI</h1>
-      <p className="mt-2 text-zinc-400">
-        Project scaffold ready. Landing page arrives in Phase 3.
-      </p>
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <Navbar />
+      <main className="flex-1">
+        <Hero />
+        <AnalyzerSection />
+      </main>
+      <Footer />
     </div>
   );
 }
